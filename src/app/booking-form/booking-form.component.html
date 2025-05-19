@@ -1,0 +1,66 @@
+<mat-card>
+  <mat-card-title>Időpontfoglalás</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="fill">
+        <mat-label>Név</mat-label>
+        <input matInput formControlName="patientName" required>
+        <mat-error *ngIf="bookingForm.get('patientName')?.hasError('required')">
+          A név megadása kötelező
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Orvos</mat-label>
+        <mat-select formControlName="doctorId" required>
+          <mat-option *ngFor="let doctor of doctors" [value]="doctor.id">
+            {{doctor.name}} - {{doctor.specialization}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="bookingForm.get('doctorId')?.hasError('required')">
+          Az orvos kiválasztása kötelező
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Dátum</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="date" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="bookingForm.get('date')?.hasError('required')">
+          A dátum megadása kötelező
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Időpont</mat-label>
+        <mat-select formControlName="time" required>
+          <mat-option *ngFor="let time of availableTimes" [value]="time">
+            {{time}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="bookingForm.get('time')?.hasError('required')">
+          Az időpont kiválasztása kötelező
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Indoklás</mat-label>
+        <textarea matInput formControlName="reason" rows="3"></textarea>
+      </mat-form-field>
+
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+
+      <div class="button-container">
+        <button mat-raised-button color="primary" type="submit" [disabled]="!bookingForm.valid">
+          Időpont foglalása
+        </button>
+        <button mat-button type="button" (click)="onCancel()">
+          Mégse
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

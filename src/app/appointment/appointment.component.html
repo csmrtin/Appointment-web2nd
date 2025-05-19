@@ -1,0 +1,28 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Lefoglalt időpontok</mat-card-title>
+    <div style="margin-left: auto; display: flex; gap: 10px;">
+      <button mat-raised-button color="warn" (click)="deleteAllAppointments()" *ngIf="appointments.length > 0">
+        <mat-icon>delete_sweep</mat-icon>
+        Összes időpont törlése
+      </button>
+      <button mat-raised-button color="primary" routerLink="/book">
+        <mat-icon>add</mat-icon>
+        Új időpont foglalása
+      </button>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="appointments-container">
+      <app-appointment-item 
+        *ngFor="let appointment of appointments"
+        [appointment]="appointment"
+        [doctorName]="getDoctorName(appointment.doctorId)"
+        (cancelAppointment)="cancelAppointment($event)">
+      </app-appointment-item>
+      <p *ngIf="appointments.length === 0" class="no-appointments">
+        Nincs lefoglalt időpont. Kattints az "Új időpont foglalása" gombra a foglaláshoz.
+      </p>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,20 @@
+<mat-card class="appointment-card">
+  <mat-card-header>
+    <mat-card-title>{{ appointment.patientName }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p><strong>Orvos:</strong> {{ doctorName }}</p>
+    <p><strong>Dátum:</strong> {{ appointment.date | dateFormat }}</p>
+    <p><strong>Idő:</strong> {{ appointment.time }}</p>
+    <p><strong>Státusz:</strong> <span class="status-badge" [ngClass]="appointment.status">
+      {{ appointment.status === 'pending' ? 'Visszaigazolásra vár!' : 
+         appointment.status === 'confirmed' ? 'Megerősítve' : 'Lemondva' }}
+    </span></p>
+    <p *ngIf="appointment.reason"><strong>Ok:</strong> {{ appointment.reason | truncate:50 }}</p>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-button color="warn" (click)="onCancel()">Törlés</button>
+    <!-- Ha van külön törlés funkció, akkor ez is mehet ide -->
+    <!-- <button mat-button color="warn" (click)="onDelete()">Végleges törlés</button> -->
+  </mat-card-actions>
+</mat-card>
